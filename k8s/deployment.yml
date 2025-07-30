@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todolist-app
+  labels:
+    app: todolist
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todolist
+  template:
+    metadata:
+      labels:
+        app: todolist
+    spec:
+      containers:
+        - name: todolist
+          image: nagham94/todolist-app:latest 
+          ports:
+            - containerPort: 4000
+          env:
+            - name: mongoDbUrl
+              valueFrom:
+                secretKeyRef:
+                  name: todolist-secret
+                  key: mongoDbUrl
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 4000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 4000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+      imagePullSecrets:
+        - name: dockerhub-secret
