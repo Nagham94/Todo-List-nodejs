@@ -19,6 +19,7 @@ Whitelisted my IP address to allow access
 Generated my own connection string (URI)
 
 Then, I edited the .env file in the root directory and added my own URI.
+![App image](images/Capture.PNG)
 
 ### 3. Dockerization of the Node.js App
 
@@ -47,14 +48,17 @@ CMD ["npm", "start"]
 ### 4. CI/CD with GitHub Actions & Docker Hub
 
 I created a private Docker Hub repository to store the app's Docker images.
+![App image](images/dockerhub-priv-repo.PNG)
+![App image](images/dockerhub-repo.PNG)
 
 Then I:
 
 Created GitHub Secrets:
 DOCKER_USERNAME: Docker Hub username
 DOCKER_PASSWORD: Docker Hub access token
+![App image](images/github-actions-secretes.PNG)
 
-Created the following GitHub Actions workflow file under .github/workflows/docker-build.yml. This workflow automatically builds a Docker image from the app and pushes it to the private Docker Hub repo on every push to the master branch.
+Created GitHub Actions workflow file under .github/workflows/docker-build.yml. This workflow automatically builds a Docker image from the app and pushes it to the private Docker Hub repo on every push to the master branch.
 
 Each image is tagged with the Git short commit hash (e.g., a1b2c3d).
 This makes it easy to:
@@ -62,6 +66,7 @@ This makes it easy to:
 Identify exactly which version of the code is in each image
 
 Use image automation tools to detect new images and automatically trigger Kubernetes deployments.
+![App image](images/github-actions.PNG)
 
 ### 5. Infrastructure Provisioning with Terraform (AWS EC2)
 
